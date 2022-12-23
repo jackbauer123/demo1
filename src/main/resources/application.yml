@@ -1,0 +1,39 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 10.168.1.248:8848
+        namespace: b60e1e77-d986-4d0e-919e-a8de3a5f034b
+  application:
+    name: service-provider
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:10.168.1.248}:3306/test?useSSL=false
+    username: root
+    password: 189@Yuanzhibin
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+server:
+  port: 8071
+
+seata:
+  registry:
+    type: nacos
+    nacos:
+      server-addr: 10.168.1.248:8848
+      namespace: b60e1e77-d986-4d0e-919e-a8de3a5f034b
+      group: SEATA_GROUP
+  config:
+    type: nacos
+    nacos:
+      server-addr: 10.168.1.248:8848
+      group: SEATA_GROUP
+      namespace: b60e1e77-d986-4d0e-919e-a8de3a5f034b
+  service:
+    vgroup-mapping:
+      my_test_tx_group: default
+  tx-service-group: my_test_tx_group
+
