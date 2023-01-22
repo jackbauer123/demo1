@@ -1,12 +1,13 @@
 package com.example.demo;
 
-import io.seata.rm.tcc.api.TwoPhaseBusinessAction;
+import io.seata.rm.tcc.api.LocalTCC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
+@LocalTCC
 @Service
 public class HandleService {
 
@@ -16,8 +17,6 @@ public class HandleService {
    @Autowired
     PersonRepository personRepository;
 
-    @Autowired
-    TreasureRepository treasureRepository;
 
     @Transactional
     public void save(String userId, String commodityCode, Integer count){
@@ -30,24 +29,13 @@ public class HandleService {
         order.setMoney(orderMoney);
 
         orderDAO.save(order);
-        personRepository.save(new Person("jack", "test"));
-        treasureRepository.save(new Treasure("yuan", "zhibin"));
-    }
-
-    @TwoPhaseBusinessAction(name = "myTestTcc",commitMethod = "confirmCommit",rollbackMethod = "rollBack", useTCCFence = true)
-    public void tccSave(){
-        System.out.println("tccSave.");
-        throw new RuntimeException();
+        //personRepository.save(new Person("jack", "test"));
+        //treasureRepository.save(new Treasure("yuan", "zhibin"));
     }
 
 
-    public void confirmCommit(){
-        System.out.println("confirmCommit.");
-    }
 
-    public void rollBack(){
-        System.out.println("rollBack.");
 
-    }
+
 
 }
